@@ -11,15 +11,12 @@ const { getContractsById, getContracts } = require('./controllers/contracts');
 const { addBalance } = require('./controllers/balances');
 
 app.get('/contracts/:id', getProfile, async (req, res) => {
-    const contract = await getContractsById(req, res)
-    res.json(contract)
+    return await getContractsById(req, res)
 })
 
 
 app.get('/contracts', getProfile, async (req, res) => {
-    const contracts = await getContracts(req, res)
-    res.json(contracts)
-
+    return await getContracts(req, res)
 })
 
 app.get('/jobs/unpaid', getProfile, async (req, res) => {

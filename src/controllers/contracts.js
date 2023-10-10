@@ -14,7 +14,7 @@ async function getContractsById(req, res) {
     if (!(contract.ClientId == profileId || contract.ContractorId == profileId)) {
         return res.status(401).json({ message: 'Profile is not part of this contract' }).end()
     }
-    return contract
+    return res.status(200).json(contract).end()
 }
 async function getContracts(req, res) {
     const { Contract } = req.app.get('models')
@@ -34,7 +34,7 @@ async function getContracts(req, res) {
     if (!contracts)
         return res.status(404).json({ message: "No contracts found" }).end()
 
-    return contracts
+    return res.status(200).json(contracts).end()
 }
 
 module.exports = {
