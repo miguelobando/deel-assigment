@@ -1,6 +1,5 @@
 
 const { sequelize } = require('../model')
-const { Op } = require('sequelize');
 
 function validateFormat(date) {
     const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
@@ -11,14 +10,10 @@ function validateDate(startDate, endDate, res) {
     let response = 'OK';
     if (!startDate || !endDate) {
         response = 'start and end date are required'
-        // return res.status(400)
-        // .json({ message: "start and end date are required" })
     }
 
     if (!validateFormat(startDate) || !validateFormat(endDate)) {
         response = 'start and end date should be in format yyyy-mm-dd'
-        // return res.status(400)
-        // .json({ message: "start and end date should be in format yyyy-mm-dd" })
     }
 
     return response;
@@ -36,18 +31,6 @@ async function getBestProfession(req, res) {
     if (validationResponse !== 'OK') {
         return res.status(400).json({ message: validationResponse })
     }
-    // if (!startDate || !endDate) {
-    //     return res.status(400)
-    //         .json({ message: "start and end date are required" })
-    // }
-
-    // if (!validateFormat(startDate) || !validateFormat(endDate)) {
-    //     return res.status(400)
-    //         .json({ message: "start and end date should be in format yyyy-mm-dd" })
-    // }
-
-
-
 
     // I know there is a way to do this with sequelize 
     // but i found it easier and shorter to do it in this way
@@ -82,14 +65,9 @@ async function getBestClients(req, res) {
     const startDate = req.query.start;
     const endDate = req.query.end;
 
-    if (!startDate || !endDate) {
-        return res.status(400)
-            .json({ message: "start and end date are required" })
-    }
-
-    if (!validateFormat(startDate) || !validateFormat(endDate)) {
-        return res.status(400)
-            .json({ message: "start and end date should be in format yyyy-mm-dd" })
+    const validationResponse = validateDate(startDate, endDate, res)
+    if (validationResponse !== 'OK') {
+        return res.status(400).json({ message: validationResponse })
     }
 
 
