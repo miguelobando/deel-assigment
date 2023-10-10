@@ -9,7 +9,7 @@ app.set('models', sequelize.models)
 const { getUnpaidJobs, payJob } = require('./controllers/jobs');
 const { getContractsById, getContracts } = require('./controllers/contracts');
 const { addBalance } = require('./controllers/balances');
-const { getBestProfession } = require('./controllers/admin');
+const { getBestProfession, getBestClients } = require('./controllers/admin');
 
 app.get('/contracts/:id', getProfile, async (req, res) => {
     return await getContractsById(req, res)
@@ -37,5 +37,7 @@ app.get('/admin/best-profession', async (req, res) => {
     return await getBestProfession(req, res)
 })
 
-
+app.get('/admin/best-clients', async (req, res) => {
+    return await getBestClients(req, res)
+})
 module.exports = app;
