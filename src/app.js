@@ -8,7 +8,7 @@ app.set('sequelize', sequelize)
 app.set('models', sequelize.models)
 const { getUnpaidJobs, payJob } = require('./controllers/jobs');
 const { getContractsById, getContracts } = require('./controllers/contracts');
-
+const { addBalance } = require('./controllers/balances');
 
 app.get('/contracts/:id', getProfile, async (req, res) => {
     const contract = await getContractsById(req, res)
@@ -28,6 +28,10 @@ app.get('/jobs/unpaid', getProfile, async (req, res) => {
 
 app.post('/jobs/:job_id/pay', getProfile, async (req, res) => {
     return await payJob(req, res)
+})
+
+app.post('/balances/deposit/:userId', async (req, res) => {
+    return await addBalance(req, res)
 })
 
 
