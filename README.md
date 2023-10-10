@@ -1,3 +1,8 @@
+# Notes
+- I would have used Typescript but i didnt want to change it from the original template.
+- I ran out of time so i didnt do the bonus part. But know i had to use sequilize jest and super test to create the tests.
+- I separate the routes from the controllers to make it more readable.
+
 # DEEL BACKEND TASK
 
 💫 Welcome! 🎉
