@@ -32,7 +32,6 @@ app.get('/contracts/:id', getProfile, async (req, res) => {
 app.get('/contracts', getProfile, async (req, res) => {
     const { Contract } = req.app.get('models')
     const profileId = req.profile.dataValues.id
-    console.log(profileId)
     const contracts = await Contract.findAll({
         where: {
             [Op.or]: [
@@ -50,6 +49,43 @@ app.get('/contracts', getProfile, async (req, res) => {
     res.json(contracts)
 
 })
+
+app.get('/jobs/unpaid', getProfile, async (req, res) => {
+    const { Job, Contract } = req.app.get('models')
+    const profileId = req.profile.dataValues.id
+
+    // Get all contracts for profile
+    const contracts = await Contract.findAll({
+        where: {
+            [Op.or]: [
+                { ClientId: profileId },
+                { ContractorId: profileId }
+            ],
+            [Op.and]: [
+                { status: 'in_progress' }
+            ]
+        }
+    })
+
+    // Extract Ids from contracts
+    const contractIds = contracts.map(contract => contract.dataValues.id)
+
+    // Get all jobs for contracts
+
+    const jobs = await Job.findAll({
+        where: {
+            ContractId: contractIds,
+            paid: null
+        }
+    })
+
+
+    if (!jobs)
+        return res.status(404).json({ message: "No jobs found" }).end()
+    res.json(jobs)
+
+})
+
 
 
 module.exports = app;
